@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddulhftct30f1"]
+
+[ext_resource type="Script" path="res://scenes/Brick.gd" id="1_cavqm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pc3kn"]
+size = Vector2(40, 15)
+
+[node name="Brick" type="StaticBody2D" groups=["bricks"]]
+script = ExtResource("1_cavqm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 15.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(20, 7.5)
+shape = SubResource("RectangleShape2D_pc3kn")

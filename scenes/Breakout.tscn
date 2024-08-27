@@ -1,0 +1,206 @@
+[gd_scene load_steps=12 format=3 uid="uid://cb16k7r0if3n0"]
+
+[ext_resource type="Script" path="res://scripts/Breakout.gd" id="1_5xl2i"]
+[ext_resource type="Script" path="res://scripts/Ball.gd" id="2_7mkty"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2_qdqru"]
+[ext_resource type="FontFile" uid="uid://dkjjqn1331xj8" path="res://assets/pixel_font.ttf" id="4_iwmjk"]
+[ext_resource type="AudioStream" uid="uid://p23ihearosyq" path="res://sound/effects/arcade-8bit-fx-159064.mp3" id="4_ogpuu"]
+[ext_resource type="AudioStream" uid="uid://bt0ndhb1dosui" path="res://sound/effects/impact-sound-effect-8-bit-retro-151796.mp3" id="5_wuvr0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0yvm"]
+size = Vector2(150, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0lepb"]
+size = Vector2(800, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uldxm"]
+size = Vector2(800, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y8uix"]
+size = Vector2(64, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3upc1"]
+size = Vector2(8, 8)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_5xl2i")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 600.0
+color = Color(0.0862745, 0.105882, 0.137255, 1)
+
+[node name="Player" type="StaticBody2D" parent="."]
+position = Vector2(400, 550)
+script = ExtResource("2_qdqru")
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 10.0
+grow_horizontal = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_p0yvm")
+
+[node name="Goal" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
+position = Vector2(400, 632)
+shape = SubResource("RectangleShape2D_0lepb")
+
+[node name="TopBound" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Top" type="CollisionShape2D" parent="TopBound"]
+position = Vector2(400, -32)
+shape = SubResource("RectangleShape2D_uldxm")
+
+[node name="BottomBound" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Bottom" type="CollisionShape2D" parent="BottomBound"]
+position = Vector2(400, -32)
+shape = SubResource("RectangleShape2D_uldxm")
+
+[node name="SideBounds" type="StaticBody2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="SideBounds"]
+position = Vector2(-32, 300)
+shape = SubResource("RectangleShape2D_y8uix")
+
+[node name="Right" type="CollisionShape2D" parent="SideBounds"]
+position = Vector2(832, 300)
+shape = SubResource("RectangleShape2D_y8uix")
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(400, 500)
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("2_7mkty")
+
+[node name="ColorRect" type="ColorRect" parent="Ball"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_3upc1")
+
+[node name="BallTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="ReloadScreen" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="User Interface" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="User Interface"]
+offset_top = 16.0
+offset_right = 136.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("4_iwmjk")
+text = "0 score"
+horizontal_alignment = 1
+
+[node name="RightUIContainer" type="HBoxContainer" parent="User Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 32.0
+grow_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="User Interface/RightUIContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_iwmjk")
+text = "Balls:"
+
+[node name="BallContainer" type="HBoxContainer" parent="User Interface/RightUIContainer"]
+layout_mode = 2
+
+[node name="Ball1" type="ColorRect" parent="User Interface/RightUIContainer/BallContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Ball2" type="ColorRect" parent="User Interface/RightUIContainer/BallContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Ball3" type="ColorRect" parent="User Interface/RightUIContainer/BallContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="GameOver/CenterContainer"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="GameOver/CenterContainer/Panel"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 200.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="GameOver/CenterContainer/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Game Over
+Final Score: 0"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="GameOver/CenterContainer/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Play Again"
+flat = true
+
+[node name="BrickImpactPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ogpuu")
+volume_db = -10.0
+
+[node name="WallImpactPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_wuvr0")
+volume_db = -10.0
+
+[connection signal="area_entered" from="Goal" to="." method="_on_goal_area_entered"]
+[connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]
+[connection signal="timeout" from="BallTimer" to="." method="_on_ball_timer_timeout"]
+[connection signal="timeout" from="ReloadScreen" to="Ball" method="_on_reload_screen_timeout"]
+[connection signal="pressed" from="GameOver/CenterContainer/Panel/HBoxContainer/Button" to="." method="_on_button_pressed"]
